@@ -30,7 +30,6 @@ public class AuthController {
 
     @PostMapping("/token/{username}/{password}")
     public String generateToken(@PathVariable("username")String username, @PathVariable("password")String password){
-        System.out.println("show");
 
         Authentication authentication = authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(username,password)

@@ -87,7 +87,11 @@ public class SecurityConfig {
     JwtEncoder jwtEncoder(){
         JWK jwk = new RSAKey.Builder(rsaKey.publicKey())
                 .privateKey(rsaKey.privateKey()).build();
-        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(new JWKSet(jwk));
+        log.info("JSON WEB KEY: '{}'",jwk);
+        JWKSet jwkSet = new JWKSet(jwk);
+        log.info("JSON WEB KEY SET: '{}'",jwkSet);
+        JWKSource<SecurityContext> jwks = new ImmutableJWKSet<>(jwkSet);
+        log.info("JSON WEB KEY SOURCE: '{}'",jwks);
 
         return new NimbusJwtEncoder(jwks);
     }
