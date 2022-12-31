@@ -7,15 +7,13 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.jwt.JwtClaimsSet;
 import org.springframework.security.oauth2.jwt.JwtEncoder;
 import org.springframework.security.oauth2.jwt.JwtEncoderParameters;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Instant;
 import java.util.List;
 
 import static java.time.temporal.ChronoUnit.MINUTES;
+import static java.time.temporal.ChronoUnit.SECONDS;
 
 @RestController
 @RequestMapping("/api")
@@ -28,8 +26,8 @@ public class AuthController {
         this.encoder = encoder;
     }
 
-    @PostMapping("/token/{username}/{password}")
-    public String generateToken(@PathVariable("username")String username, @PathVariable("password")String password){
+    @PostMapping("/token/login")
+    public String generateToken(@RequestParam(name = "username")String username, @RequestParam(name = "password")String password){
 
         Authentication authentication = authenticationManager.authenticate(
           new UsernamePasswordAuthenticationToken(username,password)
@@ -42,7 +40,7 @@ public class AuthController {
         JwtClaimsSet claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(now)
-                .expiresAt(now.plus(20, MINUTES))
+                .expiresAt(now.plus(1, SECONDS))
                 .subject(authentication.getName())
                 .claim("scope", scope)
                 .build();

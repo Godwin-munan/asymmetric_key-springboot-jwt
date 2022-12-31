@@ -1,5 +1,6 @@
 package com.munan.asymmetric_keyspringbootjwt.security;
 
+import com.munan.asymmetric_keyspringbootjwt.security.filters.JwtAuthEntryPoint;
 import com.nimbusds.jose.jwk.JWK;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -35,10 +36,12 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 public class SecurityConfig {
 
     private final RsaKeyProperties rsaKey;
+    private final JwtAuthEntryPoint authEntryPoint;
     private static final Logger log = LoggerFactory.getLogger(SecurityConfig.class);
 
-    public SecurityConfig(RsaKeyProperties rsaKey) {
+    public SecurityConfig(RsaKeyProperties rsaKey, JwtAuthEntryPoint authEntryPoint) {
         this.rsaKey = rsaKey;
+        this.authEntryPoint = authEntryPoint;
     }
 
     @Bean
